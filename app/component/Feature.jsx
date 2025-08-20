@@ -1,7 +1,6 @@
 import { featureArray } from "../utilis/constants";
 import Image from "next/image";
 import rightSectionImage from "../assets/bottlefea.png"
-import bottlesfea from "../assets/bottlesfea.png"
 const FeatureComponent = () => {
   return (
     <>
@@ -25,12 +24,6 @@ const FeatureComponent = () => {
             })}
           </div>
         </div>
-
-        <Image
-          src={bottlesfea}
-          className="absolute bottom-0 left-1/2 w-[159px] translate-x-[-50%]"
-          alt="imageFetaureComponent"
-        />
       </div>
     </>
   );
