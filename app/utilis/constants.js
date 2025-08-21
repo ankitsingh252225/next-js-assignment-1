@@ -28,7 +28,12 @@ export const ProductArray = [
   { img: one, name: "Rainwo 600" },
 ];
 
-export const boxWidths = ["w-[386px]", "w-[463px]", "w-[393px]", "w-[431px]"];
+export const boxWidths = [
+  "w-[280px] sm:w-[320px] md:w-[386px]", // box 1
+  "w-[300px] sm:w-[350px] md:w-[463px]", // box 2
+  "w-[280px] sm:w-[320px] md:w-[393px]", // box 3
+  "w-[300px] sm:w-[340px] md:w-[431px]", // box 4
+];
 export const boxContent = [
   "Wide Mouth Bottles To Clean Easily",
   "Insulated Bottles For Hot And Cold Technology",

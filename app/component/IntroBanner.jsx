@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { navLinks } from "../utilis/constants";
@@ -14,32 +14,99 @@ import { useScroll, useTransform } from "framer-motion";
 const MotionImage = motion(Image);
 const IntroBanner = () => {
   const { scrollYProgress } = useScroll();
-  const bottleScrollY = useTransform(scrollYProgress, [0, 0.09], [80, 456]);
-
-  const CapScrolly = useTransform(scrollYProgress, [0, 0.09], [-55, 665]);
 
   useEffect(() => {
     scrollYProgress.onChange((v) => console.log("Scroll:", v));
   }, [scrollYProgress]);
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const circleProps = isMobile
+    ? {
+        initial: { width: 300, height: 300, scale: 0.7 },
+        animate: { width: 410, height: 410, scale: 0.9 },
+      }
+    : isTablet
+    ? {
+        initial: { width: 300, height: 300, scale: 0.75 },
+        animate: { width: 400, height: 400, scale: 1 },
+      }
+    : {
+        initial: { width: 370, height: 370, scale: 0.8 },
+        animate: { width: 500, height: 500, scale: 1 },
+      };
+
+  const imageBottelY = isMobile ? -123 : -90;
+  const imageCapY = isMobile ? -29 : 120;
+  console.log("imageCapY----", imageCapY);
+
+  const animationYBottel = isMobile ? -18 : 80;
+
+  const bottleScrollY = useTransform(scrollYProgress, [0, 0.09], [80, 456]);
+
+  const CapScrolly = useTransform(scrollYProgress, [0, 0.09], [-55, 665]);
+  console.log("CapScrolly----", CapScrolly);
+
   return (
     <>
-      <div className="w-full h-screen  flex flex-col items-center  ">
-        <div className="flex w-[1320px] h-[80px] mt-[15px]   items-center justify-between">
-          <Image src={Logo} alt="logoImage" className="w-[174px] h-[40px]" />
-          <div className="w-[706px] h-[49px]  flex  items-center justify-between">
-            <div className="w-[471px] h-[25px] flex justify-around text-[20px] font-[400px]">
-              {navLinks.map((obj, index) => {
-                return <p key={index}>{obj}</p>;
-              })}
+      <div className="w-full h-screen flex flex-col items-center relative">
+      
+        <div className="flex w-full max-w-[1320px] h-[80px] mt-[15px] items-center justify-between px-4 md:px-0">
+          <Image
+            src={Logo}
+            alt="logoImage"
+            className=" w-[110px] md:w-[174px] md:h-[40px]"
+          />
+
+        
+          <div className="hidden md:flex w-[706px] h-[49px] items-center justify-between">
+            <div className="w-[471px] h-[25px] flex justify-around text-[20px] font-[400]">
+              {navLinks.map((obj, index) => (
+                <p key={index}>{obj}</p>
+              ))}
             </div>
             <GradientButton text="INQUIRY NOW" />
           </div>
+
+       
+          <div className="md:hidden">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="text-black font-bold text-2xl"
+            >
+              ☰
+            </button>
+          </div>
         </div>
+
+       
+        {menuOpen && (
+          <div className="absolute top-0 left-0 w-[70%] h-[100vh]  bg-white shadow-md flex flex-col items-start px-5 py-4 gap-5 md:hidden z-500 transition-all duration-300">
+            {navLinks.map((obj, index) => (
+              <p key={index} className="text-black text-lg font-medium">
+                {obj}
+              </p>
+            ))}
+            <GradientButton text="INQUIRY NOW" />
+          </div>
+        )}
+
         <div className="relative w-full h-screen flex items-center justify-center">
           <motion.div
-            initial={{ width: 370, height: 370, scale: 0.8 }}
-            animate={{ width: 500, height: 500, scale: 1 }}
+            {...circleProps}
             transition={{ duration: 2, ease: "easeInOut" }}
             className="relative rounded-full p-[8px] bg-gradient-to-b from-[#4DFBFB] to-[#788EFF] flex items-center justify-center"
           >
@@ -49,48 +116,48 @@ const IntroBanner = () => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 2, ease: "easeInOut" }}
-              className="text-[65px] font-[600] top-[90px] absolute w-[906px] h-[150px] text-center px-[20px] leading-[70px]"
+              className="text-[29px] md:text-[65px] font-[600] md:w-[906px] top-[70px] md:top-[80px] absolute  h-[150px] text-center px-[20px] md:leading-[80px] leading-[40px]"
             >
               The Ultimate Companion for Hydration
-              <p className="text-[27px] font-[400] leading-10 mx-[188px] mt-[10px]">
+              <p className=" text-[20px] md:text-[27px] font-[400] leading-8 md:leading-10 md:mx-[188px] mt-[10px]">
                 {" "}
                 we believe in the power of hydration. Our mission is simple yet
                 vital
               </p>
               <GradientButton
                 text="INQUIRY NOW"
-                className="absolute left-[360px] mt-[20px]"
+                className="absolute left-[107px] md:left-[360px] mt-[20px]"
               />
             </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ y: -90 }}
-            animate={{ y: 80 }}
-            style={{ y: bottleScrollY }} 
+            initial={{ y: imageBottelY }}
+            animate={{ y: isMobile ? -5 : animationYBottel }}
             transition={{ duration: 2, ease: "easeInOut" }}
-            className="absolute flex justify-center items-center z-[100]"
+            style={isMobile ? {} : { y: bottleScrollY }} 
+            className="absolute flex justify-center items-center md:z-[100]"
           >
             <Image
               src={BottleDown}
               alt="Bottle"
-              width={186}
+              width={isMobile ? 150 : 186}
               height={793}
               className="pointer-events-none select-none mt-[700px]"
             />
           </motion.div>
 
           <motion.div
-            initial={{ y: 120 }}
-            animate={{ y: -55 }}
-            style={{ y: CapScrolly }}
+            initial={{ y: imageCapY }}
+            animate={{ y: isMobile ? -40 : -55 }}
             transition={{ duration: 2, ease: "easeInOut" }}
-            className="absolute flex justify-center items-center z-[100]"
+            style={isMobile ? {} : { y: CapScrolly }} 
+            className="absolute flex justify-center items-center md:z-[100] okok  "
           >
             <Image
               src={BottleCap}
               alt="Cap"
-              width={186}
+              width={isMobile ? 150 : 186}
               height={200}
               className="pointer-events-none select-none mt-[3px]"
             />
@@ -103,7 +170,7 @@ const IntroBanner = () => {
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="w-[150px] h-[150px] absolute left-[90px] bottom-[35px]"
+          className={`absolute left-[2%] bottom-[3%] w-[100px] h-[100px] sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
         />
 
         <MotionImage
@@ -112,7 +179,7 @@ const IntroBanner = () => {
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className="w-[150px] h-[150px] absolute right-[90px] bottom-[35px]"
+          className={`absolute right-[2%] bottom-[3%] w-[100px] h-[100px] sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
         />
       </div>
     </>
