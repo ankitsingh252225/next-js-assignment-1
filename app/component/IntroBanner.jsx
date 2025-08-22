@@ -41,8 +41,8 @@ const IntroBanner = () => {
       }
     : isTablet
     ? {
-        initial: { width: 300, height: 300, scale: 0.75 },
-        animate: { width: 400, height: 400, scale: 1 },
+        initial: { width: 350, height: 350, scale: 0.8 },
+        animate: { width: 480, height: 480, scale: 1 },
       }
     : {
         initial: { width: 370, height: 370, scale: 0.8 },
@@ -55,9 +55,13 @@ const IntroBanner = () => {
 
   const animationYBottel = isMobile ? -18 : 80;
 
-  const bottleScrollY = useTransform(scrollYProgress, [0, 0.09], [80, 456]);
+  const bottleScrollY = isMobile ? useTransform(scrollYProgress, [0, 0.04], [0,75]) : useTransform(scrollYProgress, [0, 0.09], [80, 456]);
 
-  const CapScrolly = useTransform(scrollYProgress, [0, 0.09], [-55, 665]);
+  const CapScrolly = isMobile ? useTransform(scrollYProgress, [0, 0.04], [-55, 311]) : useTransform(scrollYProgress, [0, 0.09], [-55, 665]);
+
+
+
+
   console.log("CapScrolly----", CapScrolly);
 
   return (
@@ -68,11 +72,11 @@ const IntroBanner = () => {
           <Image
             src={Logo}
             alt="logoImage"
-            className=" w-[110px] md:w-[174px] md:h-[40px]"
+            className=" w-[110px] lg:w-[174px] lg:h-[40px]"
           />
 
         
-          <div className="hidden md:flex w-[706px] h-[49px] items-center justify-between">
+          <div className="hidden md:flex  w-[706px] h-[49px] items-center justify-between">
             <div className="w-[471px] h-[25px] flex justify-around text-[20px] font-[400]">
               {navLinks.map((obj, index) => (
                 <p key={index}>{obj}</p>
@@ -116,17 +120,17 @@ const IntroBanner = () => {
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 2, ease: "easeInOut" }}
-              className="text-[29px] md:text-[65px] font-[600] md:w-[906px] top-[70px] md:top-[80px] absolute  h-[150px] text-center px-[20px] md:leading-[80px] leading-[40px]"
+              className="text-[27px] sm:text-[29px] md:text-[65px] font-[600] md:w-[906px] top-[70px] md:top-[130px] absolute  h-[150px] flex flex-col justify-center items-center text-center px-[20px] md:leading-[80px] leading-[40px]"
             >
               The Ultimate Companion for Hydration
-              <p className=" text-[20px] md:text-[27px] font-[400] leading-8 md:leading-10 md:mx-[188px] mt-[10px]">
+              <p className=" text-[18px] sm:text-[20px] md:text-[27px] font-[400] leading-8 md:leading-10 md:mx-[188px] mt-[10px]">
                 {" "}
                 we believe in the power of hydration. Our mission is simple yet
                 vital
               </p>
               <GradientButton
                 text="INQUIRY NOW"
-                className="absolute left-[107px] md:left-[360px] mt-[20px]"
+                className="absolute mt-[230] md:mt-[300px]"
               />
             </motion.div>
           </motion.div>
@@ -135,13 +139,13 @@ const IntroBanner = () => {
             initial={{ y: imageBottelY }}
             animate={{ y: isMobile ? -5 : animationYBottel }}
             transition={{ duration: 2, ease: "easeInOut" }}
-            style={isMobile ? {} : { y: bottleScrollY }} 
+            style={ { y: bottleScrollY }} 
             className="absolute flex justify-center items-center md:z-[100]"
           >
             <Image
               src={BottleDown}
               alt="Bottle"
-              width={isMobile ? 150 : 186}
+              width={isMobile ? 150 :  isTablet ? 150: 186}
               height={793}
               className="pointer-events-none select-none mt-[700px]"
             />
@@ -151,13 +155,13 @@ const IntroBanner = () => {
             initial={{ y: imageCapY }}
             animate={{ y: isMobile ? -40 : -55 }}
             transition={{ duration: 2, ease: "easeInOut" }}
-            style={isMobile ? {} : { y: CapScrolly }} 
+            style={ { y: CapScrolly }} 
             className="absolute flex justify-center items-center md:z-[100] okok  "
           >
             <Image
               src={BottleCap}
               alt="Cap"
-              width={isMobile ? 150 : 186}
+               width={isMobile ? 150 :  isTablet ? 150: 186}
               height={200}
               className="pointer-events-none select-none mt-[3px]"
             />
@@ -170,7 +174,7 @@ const IntroBanner = () => {
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className={`absolute left-[2%] bottom-[3%] w-[100px] h-[100px] sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
+          className={`absolute left-[2%] bottom-[3%] w-[70px] h-[70px] sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
         />
 
         <MotionImage
@@ -179,7 +183,7 @@ const IntroBanner = () => {
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 2, ease: "easeOut" }}
-          className={`absolute right-[2%] bottom-[3%] w-[100px] h-[100px] sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
+          className={`absolute right-[2%] bottom-[3%] w-[70px] h-[70px]  sm:w-[70px] sm:h-[70px] md:w-[150px] md:h-[150px]`}
         />
       </div>
     </>
